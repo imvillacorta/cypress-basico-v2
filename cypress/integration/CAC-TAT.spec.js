@@ -146,7 +146,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         })
     }) 
     
-    it.only('Seleciona um arquivo utilizando uma fixture para a qual foi dada um alias', function(){
+    it('Seleciona um arquivo utilizando uma fixture para a qual foi dada um alias', function(){
         cy.fixture('example.json').as('sampleFile')
         cy.get('input[type="file"]')
         .should('not.have.value')
@@ -155,4 +155,20 @@ describe('Central de Atendimento ao Cliente TAT', function() {
             expect($input[0].files[0].name).to.eq('example.json')
         })
     }) 
+
+    it('Verifica que a politica de privacidade abre em outra aba sem a necessidade de um clique', function(){
+        cy.get('#privacy a')
+        .should('have.attr', 'target', '_blank')
+        .should('have.attr', 'href', 'privacy.html')
+    })
+
+    it('Acessa a página de politica de privacidade removendo o target e então clicando no link', function(){
+        cy.get('#privacy a')
+        .invoke('removeAttr', 'target')
+        .click()
+
+        cy.contains('Talking About Testing').should('be.visible')
+    }) 
+
+
   })
